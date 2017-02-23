@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	fetchGrudges();
 	countOffenders();
+	countUnforgiven();
 });
 
 function fetchGrudges() {
@@ -16,8 +17,21 @@ function fetchGrudges() {
 function countOffenders() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		console.log(response);
 		$('.count-container').html(`${response.data.length}`);
+	})
+}
+
+function countUnforgiven() {
+	axios.get('/api/grudges')
+	.then(function (response) {
+		let count = 0;
+		let grudges = response.data
+		for(let i=0; i<grudges.length; i++) {
+			if (grudges[i].forgiven === false) {
+				count++;
+			}
+			console.log(count);
+		}
 	})
 }
 
