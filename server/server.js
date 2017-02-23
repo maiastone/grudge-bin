@@ -49,6 +49,15 @@ app.post('/api/grudges', (req, res) => {
   res.status(201).json(app.locals.grudges)
 })
 
+app.get('/api/grudges/:id', (req, res) => {
+  const { id } = req.params;
+  let currentOffender = app.locals.grudges.filter((grudge) => {
+    if(grudge.id === parseInt(id))
+      return grudge
+  })
+  res.status(200).json(currentOffender)
+})
+
 const server = http.createServer(app)
 .listen(port, () => {
   console.log(`Listening on port ${port}.`);
