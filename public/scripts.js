@@ -6,6 +6,7 @@ function fetchGrudges() {
 	axios.get('/api/grudges')
 	.then(function (response) {
 		appendDOM(response.data);
+		countOldOffenders();
 	})
 	.catch(function(error) {
 		console.log('Error receiving grudges');
@@ -15,13 +16,15 @@ function fetchGrudges() {
 function appendDOM(grudges) {
 	grudges.map(function(grudge) {
 		$('.grudge-container').append(`
-			<h1>${grudge.name}</h1>
-      <h2>${grudge.offense}</h2>
-      <h3>${grudge.forgiven}</h3>
-      <h3>${grudge.date}</h3>
-			`);
+			<button class='offender'>
+				<h2 class='name'>${grudge.name}</h2>
+			</button>`);
 	});
 }
+
+$('.grudge-container').on('click', 'button', function() {
+	console.log('hello');
+})
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
@@ -36,6 +39,7 @@ function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
   .then((response) => {
     appendNewGrudge(response);
+		countNewOffender();
   })
   .catch((error) => {
     console.log(error);
@@ -45,9 +49,14 @@ function postGrudge(newGrudge) {
     for (let i=0; i<response.data.length; i++) {
       if (newGrudge.name === response.data[i].name) {
         $('.grudge-container').append(`
-          <h1>${response.data[i].name}</h1>
-          `);
-        }
+          <h2 class='name'>${response.data[i].name}</h2>
+        `);
       }
     }
+  }
+}
+
+function countOldOffenders() {
+	let count = $('h2').length
+	$('.count-container').append(count)
 }
