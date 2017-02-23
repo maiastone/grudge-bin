@@ -58,11 +58,18 @@ function makeAllCounts() {
 function appendDOM(grudges) {
 	grudges.map(function(grudge) {
 		$('.grudge-container').append(`
-			<button class='offender'>
-				<h2 class='name'>${grudge.name}</h2>
-			</button>`);
+			<ul>
+				<li class='offender' class='name'>${grudge.name}</li>
+			<ul>`);
 	});
 };
+
+$('.grudge-container').on('click', 'li', function(id) {
+		axios.get(`/api/grudges/${id}`)
+		.then((response) => {
+			console.log(response);
+		})
+})
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
@@ -100,4 +107,9 @@ function postGrudge(newGrudge) {
       }
     }
   }
+};
+
+function sortOffenders() {
+	let offenderArray = [];
+	forEach()
 };
