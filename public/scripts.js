@@ -11,14 +11,14 @@ function fetchGrudges() {
 	.catch(function(error) {
 		console.log('Error receiving grudges');
 	})
-}
+};
 
 function countOffenders() {
 	axios.get('/api/grudges')
 	.then(function (response) {
 		$('.count-container').html(`${response.data.length}`);
 	})
-}
+};
 
 function countUnforgiven() {
 	axios.get('/api/grudges')
@@ -30,8 +30,8 @@ function countUnforgiven() {
 			}
 		}
 		$('.unforgiven-container').html(`${count}`);
-	})
-}
+	});
+};
 
 function countForgiven() {
 	axios.get('/api/grudges')
@@ -44,13 +44,16 @@ function countForgiven() {
 		}
 		$('.forgiven-container').html(`${count}`);
 	})
-}
+	.catch((error) => {
+		console.log(error);
+	});
+};
 
 function makeAllCounts() {
 	countOffenders();
 	countUnforgiven();
 	countForgiven();
-}
+};
 
 function appendDOM(grudges) {
 	grudges.map(function(grudge) {
@@ -59,21 +62,14 @@ function appendDOM(grudges) {
 				<h2 class='name'>${grudge.name}</h2>
 			</button>`);
 	});
-}
-
-$('.grudge-container').on('click', 'button', function(id) {
-	axios.get(`/api/grudges/${id}`)
-	.then((response) => {
-		console.log(response);
-	})
-})
+};
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
   const newGrudge = {
     name: $('.name-entry').val(),
     offense: $('.offense-entry').val()
-  }
+  };
   postGrudge(newGrudge);
 	clearInputs();
 });
@@ -81,7 +77,7 @@ $('.submit').on('click', function(e) {
 function clearInputs() {
 	$('.name-entry').val(''),
 	$('.offense-entry').val('')
-}
+};
 
 function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
@@ -104,4 +100,4 @@ function postGrudge(newGrudge) {
       }
     }
   }
-}
+};
