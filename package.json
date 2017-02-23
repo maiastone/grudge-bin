@@ -1,0 +1,20 @@
+{
+  "name": "grudge-bin",
+  "version": "1.0.0",
+  "description": "An app for tracking people who have wronged you",
+  "main": "index.js",
+  "engines": {
+    "node": "6.2.2"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Maia Stone",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "path": "^0.12.7"
+  }
+}
