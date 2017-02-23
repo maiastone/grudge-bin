@@ -35,9 +35,19 @@ $('.submit').on('click', function(e) {
 function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
   .then((response) => {
-    console.log(response);
+    appendNewGrudge(response);
   })
   .catch((error) => {
     console.log(error);
   });
+
+  function appendNewGrudge(response, id) {
+    for (let i=0; i<response.data.length; i++) {
+      if (newGrudge.name === response.data[i].name) {
+        $('.grudge-container').append(`
+          <h1>${response.data[i].name}</h1>
+          `);
+        }
+      }
+    }
 }
