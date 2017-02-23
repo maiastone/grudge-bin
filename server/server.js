@@ -4,6 +4,7 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const md5 = require('md5');
+const moment = require('moment');
 const environment = process.env.NODE_ENV || 'development';
 const port =  process.env.PORT || 3000;
 
@@ -18,7 +19,7 @@ app.locals.grudges = [
     name: 'Creature',
     offense: 'Slimy',
     forgiven: false,
-    date: Date.now()
+    date: moment().format('MMM Do YY')
   }
 ]
 

@@ -16,6 +16,9 @@ function appendDOM(grudges) {
 	grudges.map(function(grudge) {
 		$('.grudge-container').append(`
 			<h1>${grudge.name}</h1>
+      <h2>${grudge.offense}</h2>
+      <h3>${grudge.forgiven}</h3>
+      <h3>${grudge.date}</h3>
 			`);
 	});
 }
