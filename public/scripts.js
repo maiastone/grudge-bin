@@ -41,7 +41,7 @@ function postGrudge(newGrudge) {
     console.log(error);
   });
 
-  function appendNewGrudge(response, id) {
+  function appendNewGrudge(response) {
     for (let i=0; i<response.data.length; i++) {
       if (newGrudge.name === response.data[i].name) {
         $('.grudge-container').append(`
