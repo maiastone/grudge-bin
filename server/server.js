@@ -29,6 +29,23 @@ app.get('/', (req, res) => {
 app.get('/api/grudges', (req, res) => {
   const grudges = app.locals.grudges;
   res.json(grudges);
+});
+
+app.post('/api/grudges', (req, res) => {
+  const newGrudge = {
+    id: md5(req.body.name),
+    name: req.body.name,
+    offense: req.body.offense,
+    forgiven: false,
+    date: Date.now()
+  };
+  if (!req.body.name) {
+    return res.status(422).send({
+      error: 'No new grudge provided'
+    });
+  }
+  app.locals.grudges.push(newGrudge);
+  res.status(201).json(app.locals.grudges)
 })
 
 const server = http.createServer(app)
