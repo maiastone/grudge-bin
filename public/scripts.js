@@ -61,7 +61,7 @@ function appendDOM(grudges) {
 	});
 }
 
-$('.grudge-container').on('click', 'button', function() {
+$('.grudge-container').on('click', 'button', function(id) {
 	axios.get(`/api/grudges/${id}`)
 	.then((response) => {
 		console.log(response);
@@ -75,7 +75,13 @@ $('.submit').on('click', function(e) {
     offense: $('.offense-entry').val()
   }
   postGrudge(newGrudge);
+	clearInputs();
 });
+
+function clearInputs() {
+	$('.name-entry').val(''),
+	$('.offense-entry').val('')
+}
 
 function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
