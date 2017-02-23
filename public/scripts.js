@@ -1,7 +1,6 @@
 $(document).ready(function() {
 	fetchGrudges();
-	countOffenders();
-	countUnforgiven();
+	makeAllCounts();
 });
 
 function fetchGrudges() {
@@ -25,14 +24,32 @@ function countUnforgiven() {
 	axios.get('/api/grudges')
 	.then(function (response) {
 		let count = 0;
-		let grudges = response.data
-		for(let i=0; i<grudges.length; i++) {
-			if (grudges[i].forgiven === false) {
+		for(let i=0; i<response.data.length; i++) {
+			if (response.data[i].forgiven === false) {
 				count++;
 			}
-			console.log(count);
 		}
+		$('.unforgiven-container').html(`${count}`);
 	})
+}
+
+function countForgiven() {
+	axios.get('/api/grudges')
+	.then(function (response) {
+		let count = 0;
+		for(let i=0; i<response.data.length; i++) {
+			if (response.data[i].forgiven === true) {
+				count++;
+			}
+		}
+		$('.forgiven-container').html(`${count}`);
+	})
+}
+
+function makeAllCounts() {
+	countOffenders();
+	countUnforgiven();
+	countForgiven();
 }
 
 function appendDOM(grudges) {
@@ -64,7 +81,7 @@ function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
   .then((response) => {
     appendNewGrudge(response);
-		countOffenders();
+		makeAllCounts();
   })
   .catch((error) => {
     console.log(error);
