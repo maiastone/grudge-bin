@@ -2,7 +2,7 @@
   "name": "grudge-bin",
   "version": "1.0.0",
   "description": "An app for tracking people who have wronged you",
-  "main": "index.js",
+  "main": "scripts.js",
   "engines": {
     "node": "6.2.2"
   },
@@ -14,8 +14,10 @@
   "author": "Maia Stone",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
+    "jquery": "^3.1.1",
     "md5": "^2.2.1",
     "path": "^0.12.7"
   }
