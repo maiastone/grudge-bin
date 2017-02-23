@@ -29,11 +29,15 @@ $('.submit').on('click', function(e) {
     name: $('.name-entry').val(),
     offense: $('.offense-entry').val()
   }
+  postGrudge(newGrudge);
+});
+
+function postGrudge(newGrudge) {
   axios.post('/api/grudges', newGrudge)
   .then((response) => {
-  		console.log(response);
-  	})
-    .catch((error) => {
-      console.log(error);
-    });
-});
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
