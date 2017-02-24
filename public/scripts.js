@@ -104,9 +104,9 @@ function postGrudge(newGrudge) {
     for (let i=0; i<response.data.length; i++) {
       if (newGrudge.name === response.data[i].name) {
         $('.grudge-container').append(`
-          <button class='offender'>
-						<h2 class='name'>${response.data[i].name}</h2>
-					</button>
+					<ul>
+          <li class='offender' class='name'>${response.data[i].name}</li>
+					</ul>
         `);
       }
     }
