@@ -49,7 +49,27 @@ app.post('/api/grudges', (req, res) => {
   res.status(201).json(app.locals.grudges)
 })
 
+app.get('/api/grudges/:id', (req, res) => {
+  const { id } = req.params;
+  const grudge = app.locals.grudges[id];
+  if (!grudge) {return res.sendStatus(404);}
+  res.status(200).json({id, grudge})
+})
+
+app.patch('/api/grudges/:id', (req, res) => {
+  const { id } = req.params
+  const { forgiven } = req.body
+  const updatedGrudges = app.locals.grudges.map(grudge => {
+    if(grudge.id === parseInt(id)) grudge.forgiven = true
+    return grudge
+  })
+  app.locals.grudges = updatedGrudges
+  res.status(200).json(app.locals.grudges)
+})
+
 const server = http.createServer(app)
 .listen(port, () => {
   console.log(`Listening on port ${port}.`);
 });
+
+module.exports = app;
