@@ -75,7 +75,6 @@ function getGrudge(id) {
 	})
 }
 
-
 $('.submit').on('click', function(e) {
 	e.preventDefault();
   const newGrudge = {

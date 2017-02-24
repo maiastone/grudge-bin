@@ -63,12 +63,9 @@ app.patch('/api/grudges/:id', (req, res) => {
     if(grudge.id === parseInt(id)) grudge.forgiven = true
     return grudge
   })
-
   app.locals.grudges = updatedGrudges
   res.status(200).json(app.locals.grudges)
 })
-
-
 
 const server = http.createServer(app)
 .listen(port, () => {
