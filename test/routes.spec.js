@@ -17,6 +17,27 @@ describe('API Routes', function() {
         done();
         });
     });
-
+  });
+  describe('POST /api/grudges', function() {
+    it('should post a grudge', function() {
+      chai.request(server)
+      .post('/api/grudges')
+      .end(function(err, res) {
+      res.should.have.status(200)
+      res.should.be.json
+      res.body.should.be.a('array')
+      done();
+      });
+    });
+  });
+  describe('GET /fawoiejfldk', function() {
+    it('should respond with 404 for no route', (done) => {
+      chai.request(server)
+      .get('/fawoiejfldk')
+      .end(function(err, res) {
+      res.should.have.status(404)
+      done();
+      })
+    })
   })
-})
+});
