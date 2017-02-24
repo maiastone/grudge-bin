@@ -120,8 +120,7 @@ $('.sort-name').on('click', function() {
 function sortOffendersNames() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		sortName(response)
-		console.log(response);
+		sortName();
 	})
 	.catch((error) => {
     console.log(error);
@@ -129,10 +128,10 @@ function sortOffendersNames() {
 };
 
 function sortName(response) {
-	let {offenders} = response.data
-	let sortedOffenders = offenders.sort(function (a, b) {
-		var x = a.offender.name.toLowerCase();
-		var y = b.offender.name.toLowerCase();
+	let {grudges} = response.data
+	let sortedOffenders = grudges.sort(function (a, b) {
+		var x = a.grudge.name.toLowerCase();
+		var y = b.grudge.name.toLowerCase();
 		if(x < y) return -1;
 		if(x > y) return 1;
 		return 0;
