@@ -117,6 +117,7 @@ function postGrudge(newGrudge) {
 $('.grudge-container').on('click', 'button', function(id) {
 	axios.patch(`/api/grudges/${id}`)
   .then(function(response) {
+		debugger;
 		console.log(response)
 	})
 	.catch((error) => {
@@ -131,7 +132,16 @@ $('.sort-name').on('click', function() {
 function sortOffendersNames() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		sortName(response.data);
+		let sortedOffenders = response.data;
+		sortedOffenders.sort(function (a, b) {
+			var x = a.name.toLowerCase();
+			var y = b.name.toLowerCase();
+			if(x < y) return -1;
+			if(x > y) return 1;
+			return 0;
+		})
+		$('.grudge-container').html('');
+		appendDOM(sortedOffenders);
 	})
 	.catch((error) => {
     console.log(error);
@@ -139,13 +149,5 @@ function sortOffendersNames() {
 };
 
 function sortName(response) {
-	let sortedOffenders = response.data.sort(function (a, b) {
-		var x = a.response.name.toLowerCase();
-		var y = b.response.name.toLowerCase();
-		if(x < y) return -1;
-		if(x > y) return 1;
-		return 0;
-	})
-	$('.grudge-container').html('');
-	appendDOM(sortedOffenders);
+
 }
