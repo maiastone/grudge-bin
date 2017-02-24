@@ -64,12 +64,16 @@ function appendDOM(grudges) {
 	});
 };
 
-$('.grudge-container').on('click', 'li', function(id) {
-		axios.get(`/api/grudges/${id}`)
-		.then((response) => {
-			console.log(response);
-		})
-})
+function getGrudge(id) {
+	axios.get(`/api/grudges/${id}`)
+	.then(function (res) {
+		console.log(res);
+	})
+	.catch(function (err) {
+		console.log(err);
+	})
+}
+
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
@@ -109,7 +113,30 @@ function postGrudge(newGrudge) {
   }
 };
 
-function sortOffenders() {
-	let offenderArray = [];
-	forEach()
+$('.sort-name').on('click', function() {
+	sortOffendersNames()
+})
+
+function sortOffendersNames() {
+	axios.get('/api/grudges')
+	.then(function (response) {
+		sortName(response)
+		console.log(response);
+	})
+	.catch((error) => {
+    console.log(error);
+  });
 };
+
+function sortName(response) {
+	let {offenders} = response.data
+	let sortedOffenders = offenders.sort(function (a, b) {
+		var x = a.offender.name.toLowerCase();
+		var y = b.offender.name.toLowerCase();
+		if(x < y) return -1;
+		if(x > y) return 1;
+		return 0;
+	})
+	$('.grudge-container').html('');
+	appendDOM(sortedOffenders);
+}

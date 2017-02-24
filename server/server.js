@@ -51,12 +51,11 @@ app.post('/api/grudges', (req, res) => {
 
 app.get('/api/grudges/:id', (req, res) => {
   const { id } = req.params;
-  let currentOffender = app.locals.grudges.filter((grudge) => {
-    if(grudge.id === parseInt(id))
-      return grudge
-  })
-  res.status(200).json(currentOffender)
+  const grudge = app.locals.grudges[id];
+  if (!grudge) {return res.sendStatus(404);}
+  res.status(200).json({id, grudge})
 })
+
 
 const server = http.createServer(app)
 .listen(port, () => {
