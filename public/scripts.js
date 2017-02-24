@@ -60,6 +60,7 @@ function appendDOM(grudges) {
 		$('.grudge-container').append(`
 			<ul>
 				<li class='offender' class='name'>${grudge.name}</li>
+				<button class='forgive'>Forgive</button>
 			<ul>`);
 	});
 };
@@ -106,12 +107,23 @@ function postGrudge(newGrudge) {
         $('.grudge-container').append(`
 					<ul>
           <li class='offender' class='name'>${response.data[i].name}</li>
+					<button class='forgive'>Forgive</button>
 					</ul>
         `);
       }
     }
   }
 };
+
+$('.grudge-container').on('click', 'button', function(id) {
+	axios.patch(`/api/grudges/${id}`)
+  .then(function(response) {
+		console.log(response)
+	})
+	.catch((error) => {
+    console.log(error);
+	})
+})
 
 $('.sort-name').on('click', function() {
 	sortOffendersNames()
@@ -128,7 +140,7 @@ function sortOffendersNames() {
 };
 
 function sortName(response) {
-	let sortedOffenders = response.sort(function (a, b) {
+	let sortedOffenders = response.data.sort(function (a, b) {
 		var x = a.response.name.toLowerCase();
 		var y = b.response.name.toLowerCase();
 		if(x < y) return -1;
