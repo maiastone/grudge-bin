@@ -69,7 +69,7 @@ $('.grudge-container').on('click', 'li', function(e) {
 	let id = e.target.id;
 	axios.get(`/api/grudges/${id}`)
 	.then(function (response) {
-		console.log(response);
+		$('.unique-grudge-container').html('');
 		$('.unique-grudge-container').append(`
 			<h3>${response.data[0].name}</h3>
 			<h3>${response.data[0].offense}</h3>
