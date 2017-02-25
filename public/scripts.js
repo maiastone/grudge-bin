@@ -73,20 +73,19 @@ $('.grudge-container').on('click', 'li', function(e) {
 			<h3>${response.data[0].name}</h3>
 			<h3>${response.data[0].offense}</h3>
 			<h3>${response.data[0].date}</h3>
-			<button class='forgive'>Forgive</button>
+			<button id=${response.data[0].id} class='forgive'>Forgive</button>
 		`)
 	})
 	.catch(function (error) {
 		console.log(error);
-	})
-
-})
+	});
+});
 
 function appendDetails(id) {
 	$('.grudge-container').append(`
 		<h3>${response.data[0].name}</h3>
-		`)
-}
+	`)
+};
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
@@ -126,12 +125,11 @@ function postGrudge(newGrudge) {
   }
 };
 
-$('.grudge-container').on('click', 'button', function(id) {
+$('.unique-grudge-container').on('click', 'button', function(e) {
+	let id = e.target.id
 	axios.patch(`/api/grudges/${id}`)
   .then(function(response) {
-
-		console.log(response)
-
+		makeAllCounts();
 	})
 	.catch((error) => {
     console.log(error);

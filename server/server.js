@@ -59,7 +59,7 @@ app.patch('/api/grudges/:id', (req, res) => {
     return grudge
   })
   app.locals.grudges = updatedGrudges
-  res.status(200).json(app.locals.grudges)
+  res.status(200).json(updatedGrudges)
 })
 
 const server = http.createServer(app)
