@@ -71,7 +71,8 @@ $('.grudge-container').on('click', 'li', function(e) {
 	debugger;
 	axios.get(`/api/grudges/${id}`)
 	.then(function (response) {
-		console.log(response);
+		console.log(response.data.id);
+		console.log(response.data.grudge[0].name);
 	})
 	.catch(function (error) {
 		console.log(error);

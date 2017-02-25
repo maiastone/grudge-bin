@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 
 app.locals.grudges = [
   {
-    id: 1,
     name: 'Creature',
     offense: 'Slimy',
     forgiven: false,
@@ -55,7 +54,7 @@ app.get('/api/grudges/:id', (req, res) => {
       return grudge;
     }
   })
-  res.status(201).json(grudge)
+  res.status(201).json(id, grudge)
 })
 
 app.patch('/api/grudges/:id', (req, res) => {
