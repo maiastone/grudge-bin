@@ -1,9 +1,16 @@
+body {
+  box-sizing: border-box;
+  background-color: #f4f4f4;
+}
+
 h1 {
   font-size: 32px;
   text-align: center;
+  padding: 5%;
 }
 
 h2 {
+  margin-top: 5%;
   padding: 3%;
   font-size: 22px;
   font-weight: bold;
@@ -25,41 +32,75 @@ input {
   margin: 10px;
   height: 25px;
   width: 60%;
+  background-color: #f0efef;
+  border: 1px solid gray;
+  border-radius: 3px;
 }
 
 form {
   display: flex;
   flex-direction: column;
   margin: 3%;
-  padding: 3%;
+  border: 2px solid black;
+  padding: 2%;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+
 }
 
 .submit {
-  width: 40%;
+  height: 25px;
   background: none;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid black;
 }
 
-.sort-name {
-  width: 25%;
+.submit:hover {
+  background-color: gray;
+  color: white;
+}
+
+.sort-name, .sort-date {
+  width: 21%;
+  height: 25px;
   background: none;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid black;
   margin-left: 5%;
 }
 
+.sort-name:hover, .sort-date:hover {
+  background-color: gray;
+  color: white;
+}
+
+.forgive {
+  width: 20%;
+  height: 25px;
+  margin: 2%;
+  padding: 0;
+  background: none;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.forgive:hover {
+  background-color: gray;
+  color: white;
+}
+
 .all-counts {
-  margin-left: 3%;
+  margin: 5%;
 }
 
 .count-container, .forgiven-container, .unforgiven-container {
   margin-left: 5%;
-  font-weight: bold;
+  padding: 5px;
 }
 
 .grudge-container {
-  border: 1px solid black;
+  border: 2px solid black;
   margin: 3%;
   padding: 3%;
+  background-color: #ffffff;
 }

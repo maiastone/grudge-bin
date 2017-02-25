@@ -18,6 +18,7 @@ describe('API Routes', function() {
         });
     });
   });
+  // start with empty array post, and check array.length 1
   describe('POST /api/grudges', function() {
     it('should post a grudge', function() {
       chai.request(server)

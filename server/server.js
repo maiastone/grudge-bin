@@ -19,7 +19,7 @@ app.locals.grudges = [
     name: 'Creature',
     offense: 'Slimy',
     forgiven: false,
-    date: moment().format('MMM Do YY')
+    date: 'Feb 27th 17'
   }
 ]
 
@@ -51,9 +51,8 @@ app.post('/api/grudges', (req, res) => {
 
 app.get('/api/grudges/:id', (req, res) => {
   const { id } = req.params;
-  const grudge = app.locals.grudges[id];
-  if (!grudge) {return res.sendStatus(404);}
-  res.status(200).json({id, grudge})
+
+
 })
 
 app.patch('/api/grudges/:id', (req, res) => {

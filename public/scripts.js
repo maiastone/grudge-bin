@@ -16,7 +16,7 @@ function fetchGrudges() {
 function countOffenders() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		$('.count-container').html(`${response.data.length}`);
+		$('.count-container').html(`Total offenders to date: ${response.data.length}`);
 	})
 };
 
@@ -29,7 +29,7 @@ function countUnforgiven() {
 				count++;
 			}
 		}
-		$('.unforgiven-container').html(`${count}`);
+		$('.unforgiven-container').html(`The number of people still on the list: ${count}`);
 	});
 };
 
@@ -42,7 +42,7 @@ function countForgiven() {
 				count++;
 			}
 		}
-		$('.forgiven-container').html(`${count}`);
+		$('.forgiven-container').html(`The number of redeemed people: ${count}`);
 	})
 	.catch((error) => {
 		console.log(error);
@@ -60,6 +60,7 @@ function appendDOM(grudges) {
 		$('.grudge-container').append(`
 			<ul>
 				<li class='offender' class='name'>${grudge.name}</li>
+				<li class='offender' class='name'>${grudge.date}</li>
 				<button class='forgive'>Forgive</button>
 			<ul>`);
 	});
@@ -106,6 +107,7 @@ function postGrudge(newGrudge) {
         $('.grudge-container').append(`
 					<ul>
           <li class='offender' class='name'>${response.data[i].name}</li>
+          <li class='offender' class='name'>${response.data[i].date}</li>
 					<button class='forgive'>Forgive</button>
 					</ul>
         `);
@@ -128,6 +130,9 @@ $('.grudge-container').on('click', 'button', function(id) {
 $('.sort-name').on('click', function() {
 	sortOffendersNames()
 })
+$('.sort-date').on('click', function() {
+	sortOffendersDates()
+})
 
 function sortOffendersNames() {
 	axios.get('/api/grudges')
@@ -148,6 +153,21 @@ function sortOffendersNames() {
   });
 };
 
-function sortName(response) {
-
-}
+function sortOffendersDates() {
+	axios.get('/api/grudges')
+	.then(function (response) {
+		let sortedOffenders = response.data;
+		sortedOffenders.sort(function (a, b) {
+			var x = a.date;
+			var y = b.date;
+			if(x < y) return -1;
+			if(x > y) return 1;
+			return 0;
+		})
+		$('.grudge-container').html('');
+		appendDOM(sortedOffenders);
+	})
+	.catch((error) => {
+    console.log(error);
+  });
+};
