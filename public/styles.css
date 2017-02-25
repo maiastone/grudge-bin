@@ -2,6 +2,7 @@ body {
   box-sizing: border-box;
   background-color: #f4f4f4;
   max-width: 420px;
+  font-family: sans-serif;
 }
 
 h1 {
@@ -28,6 +29,7 @@ ul {
 li {
   padding: 3%;
   cursor: pointer;
+  font-size: 22px;
 }
 
 li:hover {
@@ -117,4 +119,17 @@ form {
   margin: 3%;
   padding: 3%;
   background-color: #ffffff;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.date {
+  font-size: 14px;
+}
+
+#instructions {
+  margin: 6% 4% 0% 4%
 }
