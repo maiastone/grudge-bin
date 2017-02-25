@@ -13,10 +13,19 @@ function fetchGrudges() {
 	})
 };
 
+function appendDOM(grudges) {
+	grudges.map(function(grudge) {
+		$('.grudge-container').append(`
+			<ul>
+			<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
+			<ul>`);
+	});
+};
+
 function countOffenders() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		$('.count-container').html(`${response.data.length}`);
+		$('.count-container').html(`Total offenders to date: ${response.data.length}`);
 	})
 };
 
@@ -29,7 +38,7 @@ function countUnforgiven() {
 				count++;
 			}
 		}
-		$('.unforgiven-container').html(`${count}`);
+		$('.unforgiven-container').html(`The number of people still on the list: ${count}`);
 	});
 };
 
@@ -42,7 +51,7 @@ function countForgiven() {
 				count++;
 			}
 		}
-		$('.forgiven-container').html(`${count}`);
+		$('.forgiven-container').html(`The number of redeemed people: ${count}`);
 	})
 	.catch((error) => {
 		console.log(error);
@@ -54,26 +63,6 @@ function makeAllCounts() {
 	countUnforgiven();
 	countForgiven();
 };
-
-function appendDOM(grudges) {
-	grudges.map(function(grudge) {
-		$('.grudge-container').append(`
-			<ul>
-				<li class='offender' class='name'>${grudge.name}</li>
-				<button class='forgive'>Forgive</button>
-			<ul>`);
-	});
-};
-
-function getGrudge(id) {
-	axios.get(`/api/grudges/${id}`)
-	.then(function (res) {
-		console.log(res);
-	})
-	.catch(function (err) {
-		console.log(err);
-	})
-}
 
 $('.submit').on('click', function(e) {
 	e.preventDefault();
@@ -105,8 +94,7 @@ function postGrudge(newGrudge) {
       if (newGrudge.name === response.data[i].name) {
         $('.grudge-container').append(`
 					<ul>
-          <li class='offender' class='name'>${response.data[i].name}</li>
-					<button class='forgive'>Forgive</button>
+          <li id=${response.data[i].id} class='offender' class='name'>${response.data[i].name}</li>
 					</ul>
         `);
       }
@@ -114,38 +102,81 @@ function postGrudge(newGrudge) {
   }
 };
 
-$('.grudge-container').on('click', 'button', function(id) {
+$('.grudge-container').on('click', 'li', function(e) {
+	$('.unique-grudge-container').css('visibility', 'visible');
+	let id = e.target.id;
+	axios.get(`/api/grudges/${id}`)
+	.then(function (response) {
+		appendDetails(response)
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+});
+
+function appendDetails(response) {
+	$('.unique-grudge-container').html('');
+	$('.unique-grudge-container').append(`
+		<h3 class='name'>${response.data[0].name}</h3>
+		<h3>${response.data[0].offense}</h3>
+		<h3 class='date'>${response.data[0].date}</h3>
+		<button id=${response.data[0].id} class='forgive'>Forgive</button>
+	`)
+};
+
+$('.unique-grudge-container').on('click', '.forgive', function(e) {
+	let id = e.target.id
 	axios.patch(`/api/grudges/${id}`)
   .then(function(response) {
-		console.log(response)
+		makeAllCounts();
 	})
 	.catch((error) => {
     console.log(error);
-	})
-})
+	});
+});
 
 $('.sort-name').on('click', function() {
 	sortOffendersNames()
-})
+});
+
+$('.sort-date').on('click', function() {
+	sortOffendersDates()
+});
 
 function sortOffendersNames() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		sortName(response.data);
+		let sortedOffenders = response.data;
+		sortedOffenders.sort(function (a, b) {
+			var x = a.name.toLowerCase();
+			var y = b.name.toLowerCase();
+			if(x < y) return -1;
+			if(x > y) return 1;
+			return 0;
+		})
+		$('.grudge-container').html('');
+		appendDOM(sortedOffenders);
 	})
 	.catch((error) => {
     console.log(error);
   });
 };
 
-function sortName(response) {
-	let sortedOffenders = response.data.sort(function (a, b) {
-		var x = a.response.name.toLowerCase();
-		var y = b.response.name.toLowerCase();
-		if(x < y) return -1;
-		if(x > y) return 1;
-		return 0;
+function sortOffendersDates() {
+	axios.get('/api/grudges')
+	.then(function (response) {
+		let sortedOffenders = response.data;
+		sortedOffenders.sort(function (a, b) {
+			var x = a.date;
+			var y = b.date;
+			if(x < y) return -1;
+			if(x > y) return 1;
+			return 0;
+		})
+		$('.grudge-container').html('');
+		appendDOM(sortedOffenders);
 	})
-	$('.grudge-container').html('');
-	appendDOM(sortedOffenders);
-}
+	.catch((error) => {
+    console.log(error);
+  });
+};
