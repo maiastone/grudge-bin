@@ -71,8 +71,13 @@ $('.grudge-container').on('click', 'li', function(e) {
 	debugger;
 	axios.get(`/api/grudges/${id}`)
 	.then(function (response) {
-		console.log(response.data.id);
-		console.log(response.data.grudge[0].name);
+		console.log(response.data[0]);
+		console.log(response.data[0].id);
+		console.log(response.data[0].name);
+		$('.grudge-container').append(`
+			<h3>${response.data[0].name}</h3>
+			<h3>${response.data[0].offense}</h3>
+		`)
 	})
 	.catch(function (error) {
 		console.log(error);
@@ -80,8 +85,10 @@ $('.grudge-container').on('click', 'li', function(e) {
 
 })
 
-function getGrudge(id) {
-	let {id} = res.data
+function appendDetails(id) {
+	$('.grudge-container').append(`
+		<h3>${response.data[0].name}</h3>
+		`)
 }
 
 $('.submit').on('click', function(e) {

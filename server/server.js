@@ -13,14 +13,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.locals.grudges = [
-  {
-    name: 'Creature',
-    offense: 'Slimy',
-    forgiven: false,
-    date: 'Feb 27th 17'
-  }
-]
+app.locals.grudges = []
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
@@ -33,6 +26,7 @@ app.get('/api/grudges', (req, res) => {
 
 app.post('/api/grudges', (req, res) => {
   const newGrudge = {
+    id: md5(req.body.name),
     name: req.body.name,
     offense: req.body.offense,
     forgiven: false,
@@ -54,7 +48,7 @@ app.get('/api/grudges/:id', (req, res) => {
       return grudge;
     }
   })
-  res.status(201).json(id, grudge)
+  res.status(201).json(grudge)
 })
 
 app.patch('/api/grudges/:id', (req, res) => {
