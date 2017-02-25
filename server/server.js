@@ -34,7 +34,6 @@ app.get('/api/grudges', (req, res) => {
 
 app.post('/api/grudges', (req, res) => {
   const newGrudge = {
-    id: md5(req.body.name),
     name: req.body.name,
     offense: req.body.offense,
     forgiven: false,
@@ -51,15 +50,19 @@ app.post('/api/grudges', (req, res) => {
 
 app.get('/api/grudges/:id', (req, res) => {
   const { id } = req.params;
-
-
+  const grudge = app.locals.grudges.filter(function(grudge) {
+    if (grudge.id === id) {
+      return grudge;
+    }
+  })
+  res.status(201).json(grudge)
 })
 
 app.patch('/api/grudges/:id', (req, res) => {
   const { id } = req.params
   const { forgiven } = req.body
   const updatedGrudges = app.locals.grudges.map(grudge => {
-    if(grudge.id === parseInt(id)) grudge.forgiven = true
+    if(grudge.id === (id)) grudge.forgiven = true
     return grudge
   })
   app.locals.grudges = updatedGrudges

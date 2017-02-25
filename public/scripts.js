@@ -59,21 +59,28 @@ function appendDOM(grudges) {
 	grudges.map(function(grudge) {
 		$('.grudge-container').append(`
 			<ul>
-				<li class='offender' class='name'>${grudge.name}</li>
+				<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
 				<li class='offender' class='name'>${grudge.date}</li>
 				<button class='forgive'>Forgive</button>
 			<ul>`);
 	});
 };
 
-function getGrudge(id) {
+$('.grudge-container').on('click', 'li', function(e) {
+	let id = e.target.id;
+	debugger;
 	axios.get(`/api/grudges/${id}`)
-	.then(function (res) {
-		console.log(res);
+	.then(function (response) {
+		console.log(response);
 	})
-	.catch(function (err) {
-		console.log(err);
+	.catch(function (error) {
+		console.log(error);
 	})
+
+})
+
+function getGrudge(id) {
+	let {id} = res.data
 }
 
 $('.submit').on('click', function(e) {
@@ -119,8 +126,9 @@ function postGrudge(newGrudge) {
 $('.grudge-container').on('click', 'button', function(id) {
 	axios.patch(`/api/grudges/${id}`)
   .then(function(response) {
-		debugger;
+
 		console.log(response)
+
 	})
 	.catch((error) => {
     console.log(error);
