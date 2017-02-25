@@ -13,6 +13,15 @@ function fetchGrudges() {
 	})
 };
 
+function appendDOM(grudges) {
+	grudges.map(function(grudge) {
+		$('.grudge-container').append(`
+			<ul>
+			<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
+			<ul>`);
+	});
+};
+
 function countOffenders() {
 	axios.get('/api/grudges')
 	.then(function (response) {
@@ -55,37 +64,6 @@ function makeAllCounts() {
 	countForgiven();
 };
 
-function appendDOM(grudges) {
-	grudges.map(function(grudge) {
-		$('.grudge-container').append(`
-			<ul>
-				<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
-			<ul>`);
-	});
-};
-
-$('.grudge-container').on('click', 'li', function(e) {
-	$('.unique-grudge-container').css('visibility', 'visible');
-	let id = e.target.id;
-	axios.get(`/api/grudges/${id}`)
-	.then(function (response) {
-		appendDetails(response)
-	})
-	.catch(function (error) {
-		console.log(error);
-	});
-});
-
-function appendDetails(response) {
-	$('.unique-grudge-container').html('');
-	$('.unique-grudge-container').append(`
-		<h3>${response.data[0].name}</h3>
-		<h3>${response.data[0].offense}</h3>
-		<h3>${response.data[0].date}</h3>
-		<button id=${response.data[0].id} class='forgive'>Forgive</button>
-	`)
-};
-
 $('.submit').on('click', function(e) {
 	e.preventDefault();
   const newGrudge = {
@@ -116,12 +94,34 @@ function postGrudge(newGrudge) {
       if (newGrudge.name === response.data[i].name) {
         $('.grudge-container').append(`
 					<ul>
-          <li class='offender' class='name'>${response.data[i].name}</li>
+          <li id=${response.data[i].id} class='offender' class='name'>${response.data[i].name}</li>
 					</ul>
         `);
       }
     }
   }
+};
+
+$('.grudge-container').on('click', 'li', function(e) {
+	$('.unique-grudge-container').css('visibility', 'visible');
+	let id = e.target.id;
+	axios.get(`/api/grudges/${id}`)
+	.then(function (response) {
+		appendDetails(response)
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+});
+
+function appendDetails(response) {
+	$('.unique-grudge-container').html('');
+	$('.unique-grudge-container').append(`
+		<h3>${response.data[0].name}</h3>
+		<h3>${response.data[0].offense}</h3>
+		<h3>${response.data[0].date}</h3>
+		<button id=${response.data[0].id} class='forgive'>Forgive</button>
+	`)
 };
 
 $('.unique-grudge-container').on('click', 'button', function(e) {
