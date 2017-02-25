@@ -13,7 +13,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.locals.grudges = []
+app.locals.grudges = [];
 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
@@ -39,7 +39,7 @@ app.post('/api/grudges', (req, res) => {
   }
   app.locals.grudges.push(newGrudge);
   res.status(201).json(app.locals.grudges)
-})
+});
 
 app.get('/api/grudges/:id', (req, res) => {
   const { id } = req.params;
@@ -49,7 +49,7 @@ app.get('/api/grudges/:id', (req, res) => {
     }
   })
   res.status(201).json(grudge)
-})
+});
 
 app.patch('/api/grudges/:id', (req, res) => {
   const { id } = req.params
@@ -62,7 +62,7 @@ app.patch('/api/grudges/:id', (req, res) => {
   })
   app.locals.grudges = updatedGrudges
   res.status(200).json(updatedGrudges)
-})
+});
 
 const server = http.createServer(app)
 .listen(port, () => {

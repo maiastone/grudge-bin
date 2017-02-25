@@ -132,15 +132,16 @@ $('.unique-grudge-container').on('click', '.forgive', function(e) {
 	})
 	.catch((error) => {
     console.log(error);
-	})
-})
+	});
+});
 
 $('.sort-name').on('click', function() {
 	sortOffendersNames()
-})
+});
+
 $('.sort-date').on('click', function() {
 	sortOffendersDates()
-})
+});
 
 function sortOffendersNames() {
 	axios.get('/api/grudges')
