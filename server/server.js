@@ -30,7 +30,7 @@ app.post('/api/grudges', (req, res) => {
     name: req.body.name,
     offense: req.body.offense,
     forgiven: false,
-    date: moment().format('MMM Do YY')
+    date: moment().format('MMM Do YYYY HH:mm')
   };
   if (!req.body.name) {
     return res.status(422).send({

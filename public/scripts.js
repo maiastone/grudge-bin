@@ -60,7 +60,6 @@ function appendDOM(grudges) {
 		$('.grudge-container').append(`
 			<ul>
 				<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
-				<button class='forgive'>Forgive</button>
 			<ul>`);
 	});
 };
@@ -74,6 +73,7 @@ $('.grudge-container').on('click', 'li', function(e) {
 			<h3>${response.data[0].name}</h3>
 			<h3>${response.data[0].offense}</h3>
 			<h3>${response.data[0].date}</h3>
+			<button class='forgive'>Forgive</button>
 		`)
 	})
 	.catch(function (error) {
@@ -119,7 +119,6 @@ function postGrudge(newGrudge) {
         $('.grudge-container').append(`
 					<ul>
           <li class='offender' class='name'>${response.data[i].name}</li>
-					<button class='forgive'>Forgive</button>
 					</ul>
         `);
       }
