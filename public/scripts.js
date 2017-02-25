@@ -65,25 +65,24 @@ function appendDOM(grudges) {
 };
 
 $('.grudge-container').on('click', 'li', function(e) {
+	$('.unique-grudge-container').css('visibility', 'visible');
 	let id = e.target.id;
 	axios.get(`/api/grudges/${id}`)
 	.then(function (response) {
-		$('.unique-grudge-container').html('');
-		$('.unique-grudge-container').append(`
-			<h3>${response.data[0].name}</h3>
-			<h3>${response.data[0].offense}</h3>
-			<h3>${response.data[0].date}</h3>
-			<button id=${response.data[0].id} class='forgive'>Forgive</button>
-		`)
+		appendDetails(response)
 	})
 	.catch(function (error) {
 		console.log(error);
 	});
 });
 
-function appendDetails(id) {
-	$('.grudge-container').append(`
+function appendDetails(response) {
+	$('.unique-grudge-container').html('');
+	$('.unique-grudge-container').append(`
 		<h3>${response.data[0].name}</h3>
+		<h3>${response.data[0].offense}</h3>
+		<h3>${response.data[0].date}</h3>
+		<button id=${response.data[0].id} class='forgive'>Forgive</button>
 	`)
 };
 
