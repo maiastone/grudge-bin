@@ -13,16 +13,7 @@ function fetchGrudges() {
 	})
 };
 
-function appendDOM(grudges) {
-	grudges.map(function(grudge) {
-		$('.grudge-container').append(`
-			<ul>
-			<li id=${grudge.id} class='offender' class='name'>${grudge.name}</li>
-			<ul>`);
-	});
-};
-
-function countOffenders() {
+function countGrudges() {
 	axios.get('/api/grudges')
 	.then(function (response) {
 		$('.count-container').html(`Total offenders to date: ${response.data.length}`);
@@ -32,12 +23,8 @@ function countOffenders() {
 function countUnforgiven() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let count = 0;
-		for(let i=0; i<response.data.length; i++) {
-			if (response.data[i].forgiven === false) {
-				count++;
-			}
-		}
+		let allGrudges = response.data;
+		let count = countUnforgivenGrudges(allGrudges)
 		$('.unforgiven-container').html(`The number of people still on the list: ${count}`);
 	});
 };
@@ -45,21 +32,17 @@ function countUnforgiven() {
 function countForgiven() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let count = 0;
-		for(let i=0; i<response.data.length; i++) {
-			if (response.data[i].forgiven === true) {
-				count++;
-			}
-		}
+		let allGrudges = response.data;
+		let count = countForgivenGrudges(allGrudges)
 		$('.forgiven-container').html(`The number of redeemed people: ${count}`);
-	})
-	.catch((error) => {
+	 })
+	 .catch((error) => {
 		console.log(error);
-	});
+	 });
 };
 
 function makeAllCounts() {
-	countOffenders();
+	countGrudges();
 	countUnforgiven();
 	countForgiven();
 };
@@ -116,12 +99,7 @@ $('.grudge-container').on('click', 'li', function(e) {
 
 function appendDetails(response) {
 	$('.unique-grudge-container').html('');
-	$('.unique-grudge-container').append(`
-		<h3 class='name'>${response.data[0].name}</h3>
-		<h3>${response.data[0].offense}</h3>
-		<h3 class='date'>${response.data[0].date}</h3>
-		<button id=${response.data[0].id} class='forgive'>Forgive</button>
-	`)
+	$('.unique-grudge-container').append(renderGrudge(response));
 };
 
 $('.unique-grudge-container').on('click', '.forgive', function(e) {
@@ -136,45 +114,32 @@ $('.unique-grudge-container').on('click', '.forgive', function(e) {
 });
 
 $('.sort-name').on('click', function() {
-	sortOffendersNames()
+	sortGrudgesNames()
 });
 
 $('.sort-date').on('click', function() {
-	sortOffendersDates()
+	sortGrudgesDates()
 });
 
-function sortOffendersNames() {
+function sortGrudgesNames() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let sortedOffenders = response.data;
-		sortedOffenders.sort(function (a, b) {
-			var x = a.name.toLowerCase();
-			var y = b.name.toLowerCase();
-			if(x < y) return -1;
-			if(x > y) return 1;
-			return 0;
-		})
-		$('.grudge-container').html('');
-		appendDOM(sortedOffenders);
+		console.log(response);
+		let unsortedGrudges = response.data;
+		let sortedGrudges = sortNames(unsortedGrudges)
+		appendDOM(sortedGrudges);
 	})
 	.catch((error) => {
     console.log(error);
   });
 };
 
-function sortOffendersDates() {
+function sortGrudgesDates() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let sortedOffenders = response.data;
-		sortedOffenders.sort(function (a, b) {
-			var x = a.date;
-			var y = b.date;
-			if(x < y) return -1;
-			if(x > y) return 1;
-			return 0;
-		})
-		$('.grudge-container').html('');
-		appendDOM(sortedOffenders);
+		let unsortedGrudges = response.data;
+		let sortedGrudges = sortDates(unsortedGrudges)
+		appendDOM(sortedGrudges);
 	})
 	.catch((error) => {
     console.log(error);

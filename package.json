@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node server/server.js",
-    "test": "mocha"
+    "test": "mocha; open './public/tests/test.html'"
   },
   "keywords": [],
   "author": "Maia Stone",

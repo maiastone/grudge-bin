@@ -43,7 +43,7 @@ app.post('/api/grudges', (req, res) => {
 
 app.get('/api/grudges/:id', (req, res) => {
   const { id } = req.params;
-  const grudge = app.locals.grudges.filter(function(grudge) {
+  const grudge = app.locals.grudges.filter(grudge => {
     if (grudge.id === id) {
       return grudge;
     }
