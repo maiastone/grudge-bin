@@ -11,7 +11,7 @@ describe('sort functions', function() {
       name: 'jamie',
       id: 2,
       offense: 'late',
-      date: 'Feb 27th 2017, 15:08'
+      date: 'Feb 24th 2017, 2:08'
     },
   ]
 
@@ -19,5 +19,10 @@ describe('sort functions', function() {
     let subject = sortNames(grudges);
     expect(subject[0].name).to.equal('jamie')
     expect(subject[1].name).to.equal('maia')
-  })
+  });
+  it('should sort dates chronologically', function() {
+    let subject = sortDates(grudges);
+    expect(subject[0].date).to.equal('Feb 24th 2017, 2:08')
+    expect(subject[1].date).to.equal('Feb 27th 2017, 15:08')
+  });
 })
