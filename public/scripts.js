@@ -23,12 +23,8 @@ function countGrudges() {
 function countUnforgiven() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let count = 0;
-		for(let i=0; i<response.data.length; i++) {
-			if (response.data[i].forgiven === false) {
-				count++;
-			}
-		}
+		let allGrudges = response.data;
+		let count = countUnforgivenGrudges(allGrudges)
 		$('.unforgiven-container').html(`The number of people still on the list: ${count}`);
 	});
 };
@@ -36,17 +32,13 @@ function countUnforgiven() {
 function countForgiven() {
 	axios.get('/api/grudges')
 	.then(function (response) {
-		let count = 0;
-		for(let i=0; i<response.data.length; i++) {
-			if (response.data[i].forgiven === true) {
-				count++;
-			}
-		}
+		let allGrudges = response.data;
+		let count = countForgivenGrudges(allGrudges)
 		$('.forgiven-container').html(`The number of redeemed people: ${count}`);
-	})
-	.catch((error) => {
+	 })
+	 .catch((error) => {
 		console.log(error);
-	});
+	 });
 };
 
 function makeAllCounts() {

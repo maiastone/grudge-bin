@@ -37,3 +37,23 @@ function sortDates(unsortedGrudges) {
 	})
 	return sortedGrudges;
 }
+
+function countUnforgivenGrudges(allGrudges) {
+  let count = 0;
+  for(let i=0; i<allGrudges.length; i++) {
+    if (allGrudges[i].forgiven === false) {
+			count++
+		}
+  }
+	return count;
+}
+
+function countForgivenGrudges(allGrudges) {
+  let count = 0;
+  for(let i=0; i<allGrudges.length; i++) {
+    if (allGrudges[i].forgiven === true) {
+      count++;
+    }
+  }
+	return count;
+}
